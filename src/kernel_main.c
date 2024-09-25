@@ -1,6 +1,6 @@
-#include <stdio.h> 
+#include "rprintf.h"
 unsigned long get_timer_count(){
-   unsigned long *time_count_register =0x3f003004;
+   unsigned long *time_count_register =(unsigned long *)0x3f003004;
    return *time_count_register;
 }
 void wait(){
@@ -10,16 +10,24 @@ void wait(){
       second=get_timer_count();
    }
 }
-int kernel_main() {
+void clearBSS(){
    extern int __bss_start,__bss_end;
    char *begin_bss = &__bss_start;
    char *end_bss = &__bss_end;
    for (char *ptr=begin_bss;ptr<=end_bss;ptr++){
       *ptr=0;
    }
-   unsigned long timer_count= get_timer_count();
-   unsigned long tempLong = timer_count+0;
-   wait();
+}
+unsigned int getEL(){
+   unsigned int el;
+   asm("mrs %0,CurrentEL"
+       : "=r"(el)
+       :
+       :);
+   return el;
+}
+int kernel_main() {
+   esp_printf(putc,"current execution level is %d\r\n",getEL());
    return 0;
 }
 
