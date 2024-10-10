@@ -26,8 +26,12 @@ unsigned int getEL(){
        :);
    return el;
 }
-int kernel_main() {
+void printInTerminal(){
    esp_printf(putc,"current execution level is %d\r\n",getEL());
+}
+
+int kernel_main() {
+   mmu_on();
    return 0;
 }
 
