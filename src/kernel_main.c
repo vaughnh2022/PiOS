@@ -1,4 +1,5 @@
 #include "rprintf.h"
+#include "mmusetup.S"
 unsigned long get_timer_count(){
    unsigned long *time_count_register =(unsigned long *)0x3f003004;
    return *time_count_register;
