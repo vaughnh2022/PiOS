@@ -74,9 +74,9 @@ zero_out_tables:
     LDR     x2, =0x200000                // address of first table
     LDR     x3, =0x2000                  // combined length of all tables
     LSR     x3, x3, #5                   // number of required STP instructions
-    FMOV    d0, xzr                      // clear q0
+    MOV     x19,xzr                      // clear q0
 1:
-    STP     q0, q0, [x2], #32            // zero out 4 table entries at a time
+    STP     x19,x19,[x2],#32             // zero out 4 table entries at a time
     SUBS    x3, x3, #1
     B.NE    1b
 
