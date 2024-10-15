@@ -1,5 +1,6 @@
 #include "rprintf.h"
-void mmu_on();
+#include "mmu.h"
+extern struct table_descriptor_stage1 L1table[512];
 unsigned long get_timer_count(){
    unsigned long *time_count_register =(unsigned long *)0x3f003004;
    return *time_count_register;
@@ -32,7 +33,8 @@ void printInTerminal(){
 }
 
 int kernel_main() {
-   mmu_on();
+   mapPages((void*)0,(void*)0);
+  loadPageTable(&L1table[0]);
    return 0;
 }
 
