@@ -30,7 +30,11 @@ int fatInit() {
 }
 
 void fatOpen(){
-   readSector(rootSector,fat_table);
+   char[SECTOR_SIZE] holder; 
+   for(int a=0;a<bs->num_root_dir_entries;a++){
+      sd_readblock(root_sector+a,holder,1);
+      struct root_directory_entry *sectorHolder = (struct root_directory_entry) holder;
+   }
 }
 
 void fatRead(){
