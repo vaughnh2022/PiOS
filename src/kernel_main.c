@@ -31,10 +31,11 @@ unsigned int getEL(){
 void printInTerminal(){
    esp_printf(putc,"current execution level is %d\r\n",getEL());
 }
-
-int kernel_main() {
+void mapPager(){
    mapPages((void*)0,(void*)0);
   loadPageTable(&L1table[0]);
+}
+int kernel_main() {
    return 0;
 }
 
