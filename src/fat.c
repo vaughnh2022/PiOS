@@ -21,18 +21,18 @@ int fatInit() {
       strcat(fatCheck,temp);
       x++;
    }
-   if(strcmp(fatCheck,"FAT12")!=0){//Validate fs_type = "FAT12" using strcmp
+   if(strcmp(fatCheck,"FAT16")!=0){//Validate fs_type = "FAT16" using strcmp
       return 1;
    }
-   sd_readblock(1,fat_table,sizeOf(fat_table));// Read FAT table from the SD card into array fat_table
+   sd_readblock(bs->num_reserved+sectors,fat_table,bs->num_sectors_per_fat);// Read FAT table from the SD card into array fat_table
    root_sector=bs->num_fat_tables+bs->num_sectors_per_fat+bs->num_reserved_sectors+bs->num_hidden_sectors;
    return 0;
 }
 
 void fatOpen(){
-   char[SECTOR_SIZE] holder; 
+   char holder[8*512]; 
    for(int a=0;a<bs->num_root_dir_entries;a++){
-      sd_readblock(root_sector+a,holder,1);
+      sd_readblock(root_sector+(a/32),holder,1);
       struct root_directory_entry *sectorHolder = (struct root_directory_entry) holder;
    }
 }
