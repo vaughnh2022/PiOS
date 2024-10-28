@@ -5,9 +5,9 @@ unsigned long get_timer_count(){
    unsigned long *time_count_register =(unsigned long *)0x3f003004;
    return *time_count_register;
 }
-void wait(){
-   unsigned long first = get_timer_count();
-   unsigned long second =0;
+void wait_msec(int plus){
+   unsigned long first = get_timer_count()+plus;
+   unsigned long second;
    while(second<first){
       second=get_timer_count();
    }
