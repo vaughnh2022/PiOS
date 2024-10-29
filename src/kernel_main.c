@@ -5,12 +5,20 @@ unsigned long get_timer_count(){
    unsigned long *time_count_register =(unsigned long *)0x3f003004;
    return *time_count_register;
 }
-void wait_msec(int plus){
+void wait_cycles(int plus){
    unsigned long first = get_timer_count()+plus;
-   unsigned long second;
+   unsigned long second=0;
    while(second<first){
       second=get_timer_count();
    }
+}
+void wait_msec(int plus){
+   unsigned long first = get_timer_count()+(plus*1000);
+   unsigned long second=0;
+   while(second<first){
+      second=get_timer_count();
+   }
+
 }
 void clearBSS(){
    extern int __bss_start,__bss_end;
@@ -36,6 +44,8 @@ void mapPager(){
   loadPageTable(&L1table[0]);
 }
 int kernel_main() {
+   sd_init();
+   fatInit();
    return 0;
 }
 

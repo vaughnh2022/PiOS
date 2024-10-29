@@ -24,8 +24,8 @@
  */
 
 #include "gpio.h"
-#include "serial.h"
-#include "delays.h"
+//#include "serial.h"
+//#include "delays.h"
 #include "sd.h"
 #include "rprintf.h"
 
@@ -120,6 +120,9 @@
 
 unsigned long sd_scr[2], sd_ocr, sd_rca, sd_err, sd_hv;
 
+void uart_puts(char *s,...){
+   esp_printf(putc,s);
+}
 /**
  * Wait for data or command ready
  */
@@ -185,7 +188,7 @@ int sd_readblock(unsigned int lba, unsigned char *buffer, unsigned int num)
     int r,c=0,d;
     if(num<1) num=1;
 //    uart_puts("sd_readblock lba ");/*uart_hex(lba);*/uart_puts(" num ");/*uart_hex(num);*/uart_puts("\n");
-    printk("[sd_readblock] lba = %d num = %d\r\n", lba, num);
+    uart_puts("[sd_readblock] lba = %d num = %d\r\n", lba, num);
     if(sd_status(SR_DAT_INHIBIT)) {sd_err=SD_TIMEOUT; return 0;}
     unsigned int *buf=(unsigned int *)buffer;
     if(sd_scr[0] & SCR_SUPP_CCS) {

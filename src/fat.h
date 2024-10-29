@@ -4,8 +4,10 @@
 
 #include <stdint.h>
 
+#define SECTOR_SIZE 512
 #define CLUSTER_SIZE 4096
 #define SECTORS_PER_CLUSTER (CLUSTER_SIZE/SECTOR_SIZE)
+
 
 #define FILE_ATTRIBUTE_SUBDIRECTORY 0x10
 

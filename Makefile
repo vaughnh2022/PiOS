@@ -19,6 +19,9 @@ OBJS = \
         rprintf.o \
 	page.o \
         mmu.o \
+        sd.o \
+        fat.o \
+
 
 
 OBJ = $(patsubst %,$(ODIR)/%,$(OBJS))
@@ -57,11 +60,11 @@ disassemble:
 
 rootfs.img:
 	dd if=/dev/zero of=rootfs.img bs=1M count=16
-	mkfs.fat -F12 rootfs.img
+	sudo mkfs.fat -F12 rootfs.img
 	sudo mkdir -p /mnt/disk
 	sudo mount rootfs.img /mnt/disk
 	sudo mkdir -p /mnt/disk/boot/firmware
 	sudo mkdir /mnt/disk/bin
 	sudo mkdir /mnt/disk/etc
+	sudo touch /mnt/disk/file
 	sudo umount /mnt/disk
-
