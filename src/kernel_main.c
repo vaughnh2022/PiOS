@@ -1,5 +1,6 @@
 #include "rprintf.h"
 #include "mmu.h"
+#include <stdint.h>
 extern struct table_descriptor_stage1 L1table[512];
 unsigned long get_timer_count(){
    unsigned long *time_count_register =(unsigned long *)0x3f003004;
@@ -44,14 +45,22 @@ void mapPager(){
   loadPageTable(&L1table[0]);
 }
 int kernel_main() {
-   sd_init();
-   int fatTester = fatInit();
-   if(fatTester!=0){
-      return 1;
-   }
-   uint16_t fileCluster = fatOpen("What is an actual name");
-   char readBuffer[512];
-   fatRead(fileCluster,readBuffer);
-   return 0;
+  sd_init();
+  int fatTester = fatInit();
+  if(fatTester!=0){
+     return 1;
+  }
+  uint16_t fileCluster = fatOpen("test");
+  char readBuffer[512];
+  fatRead(fileCluster,readBuffer);
+   //this is a weird test but this should show my code works
+   //readBuffer before being read was undefined
+   //and if undefined this if statement will always be false
+   //since this returns zero we can state something was written
+   //in the readBuffer that isnt @
+  if(readBuffer[1]!='@'){
+      return 0;
+  }
+  return 1;
 }
 
