@@ -45,7 +45,13 @@ void mapPager(){
 }
 int kernel_main() {
    sd_init();
-   fatInit();
+   int fatTester = fatInit();
+   if(fatTester!=0){
+      return 1;
+   }
+   uint16_t fileCluster = fatOpen("What is an actual name");
+   char readBuffer[512];
+   fatRead(fileCluster,readBuffer);
    return 0;
 }
 
